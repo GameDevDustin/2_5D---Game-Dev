@@ -33,15 +33,19 @@ public class PlayerController : MonoBehaviour {
     private void MovementOnperformed(InputAction.CallbackContext context) {
         
     }
-    
-    private void JumpOnperformed(InputAction.CallbackContext context) { _startJump = true; _currNumOfJumps += 1; }
+
+    private void JumpOnperformed(InputAction.CallbackContext context) {
+        _startJump = true; 
+        _currNumOfJumps += 1; 
+        transform.SetParent(null);
+    }
 
     void Start() {
         _controller = GetComponent<CharacterController>();
         DoNullChecks();
     }
     
-    void Update() {
+    void FixedUpdate() {
         Vector2 moveDirection = _inputActions.Player.Movement.ReadValue<Vector2>();
         float moveX = moveDirection.x;
         
@@ -67,7 +71,11 @@ public class PlayerController : MonoBehaviour {
         _playerVelocity.y += _gravityValue * Time.deltaTime;
         _controller.Move(_playerVelocity * Time.deltaTime);
     }
-    
+
+    private void OnTriggerEnter(Collider other) {
+        if (other.CompareTag("MovingPlatform")) { transform.parent = other.transform; }
+    }
+
     private void DoNullChecks() {
         if (_playerSpeed <= 0) { _playerSpeed = 1; Debug.Log("PlayerController::DoNullChecks() _playerSpeed <= 0! Set to 1."); }
         if (_jumpHeight <= 0) { _jumpHeight = 1; Debug.Log("PlayerController::DoNullChecks() _jumpHeight <= 0! Set to 1."); }
