@@ -2032,6 +2032,31 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1688883338}
     m_Modifications:
+    - target: {fileID: 8712781734852374601, guid: 93f264b1200b51844a998e610ed43d3c,
+        type: 3}
+      propertyPath: _waypoints.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8712781734852374601, guid: 93f264b1200b51844a998e610ed43d3c,
+        type: 3}
+      propertyPath: _waypoints.Array.data[0].x
+      value: 14.94
+      objectReference: {fileID: 0}
+    - target: {fileID: 8712781734852374601, guid: 93f264b1200b51844a998e610ed43d3c,
+        type: 3}
+      propertyPath: _waypoints.Array.data[0].y
+      value: 4.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8712781734852374601, guid: 93f264b1200b51844a998e610ed43d3c,
+        type: 3}
+      propertyPath: _waypoints.Array.data[1].x
+      value: 29.51
+      objectReference: {fileID: 0}
+    - target: {fileID: 8712781734852374601, guid: 93f264b1200b51844a998e610ed43d3c,
+        type: 3}
+      propertyPath: _waypoints.Array.data[1].y
+      value: 4.5
+      objectReference: {fileID: 0}
     - target: {fileID: 8712781734852374608, guid: 93f264b1200b51844a998e610ed43d3c,
         type: 3}
       propertyPath: m_RootOrder
