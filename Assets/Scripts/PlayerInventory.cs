@@ -55,6 +55,8 @@ public class PlayerInventory : MonoBehaviour
         transform.GetChild(0).GetComponent<MeshRenderer>().enabled = true;
         _playerController.EnableMovement();
     }
+
+    public int GetNumOfCoins() { return _numOfCoins; }
     
     private void DoNullChecks() {
         if (_playerController == null) { Debug.LogError("PlayerInventory::DoNullChecks() _playerController is NULL!"); }
