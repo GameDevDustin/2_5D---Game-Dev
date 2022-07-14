@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviour {
     [SerializeField] private int _currNumOfJumps;
     [SerializeField] private float _jumpHeight;
     [SerializeField] private float _gravityValue;
+    [SerializeField] private bool _movementDisabled;
 
     private void OnEnable() {
         _inputActions = new InputActions();
@@ -23,6 +24,7 @@ public class PlayerController : MonoBehaviour {
         _inputActions.Player.Movement.performed += MovementOnperformed;
         _inputActions.Player.Jump.performed += JumpOnperformed;
         _currNumOfJumps = 0;
+        _movementDisabled = false;
     }
 
     private void OnDisable() {
@@ -53,8 +55,8 @@ public class PlayerController : MonoBehaviour {
         
         if (_isGrounded) { _currNumOfJumps = 0;}
         if (_isGrounded && _playerVelocity.y < 0) { _playerVelocity.y = 0; }
-        
-        MovePlayer(new Vector3(moveX, 0f, 0f));
+
+        if (!_movementDisabled) { MovePlayer(new Vector3(moveX, 0f, 0f)); }
     }
 
     private void MovePlayer(Vector3 moveDirection) {
@@ -71,6 +73,9 @@ public class PlayerController : MonoBehaviour {
         _playerVelocity.y += _gravityValue * Time.deltaTime;
         _controller.Move(_playerVelocity * Time.deltaTime);
     }
+
+    public void EnableMovement() { _movementDisabled = false;}
+    public void DisableMovement() { _movementDisabled = true; }
 
     private void OnTriggerEnter(Collider other) {
         if (other.CompareTag("MovingPlatform")) { transform.parent = other.transform; }
