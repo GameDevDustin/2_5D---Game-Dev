@@ -39,6 +39,7 @@ public class PlayerInventory : MonoBehaviour
             transform.GetChild(0).GetComponent<MeshRenderer>().enabled = false;
             transform.position = _levelManager.GetPlayerStartPosition();
             _playerController.DisableMovement();
+            _uiManager.DisplayGameOver();
         }else { //Respawn player at start of level
             transform.GetComponent<MeshRenderer>().enabled = false;
             transform.GetChild(0).GetComponent<MeshRenderer>().enabled = false;
@@ -54,7 +55,7 @@ public class PlayerInventory : MonoBehaviour
         transform.GetChild(0).GetComponent<MeshRenderer>().enabled = true;
         _playerController.EnableMovement();
     }
-
+    
     private void DoNullChecks() {
         if (_playerController == null) { Debug.LogError("PlayerInventory::DoNullChecks() _playerController is NULL!"); }
         if (_uiManager == null) { Debug.LogError("PlayerInventory::DoNullChecks() _uiManager is NULL!"); }
