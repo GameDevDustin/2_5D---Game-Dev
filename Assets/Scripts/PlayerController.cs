@@ -78,7 +78,11 @@ public class PlayerController : MonoBehaviour {
     public void DisableMovement() { _movementDisabled = true; }
 
     private void OnTriggerEnter(Collider other) {
-        if (other.CompareTag("MovingPlatform")) { transform.parent = other.transform; }
+        if (other.tag.ToLower().StartsWith("moving")) { transform.parent = other.transform; }
+    }
+
+    private void OnTriggerExit(Collider other) {
+        if (other.tag.ToLower().StartsWith("moving")) { transform.parent = null; }
     }
 
     private void DoNullChecks() {

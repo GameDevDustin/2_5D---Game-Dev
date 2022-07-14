@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Collectable
   - MovingPlatform
+  - MovingElevator
   layers:
   - Default
   - TransparentFX

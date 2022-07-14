@@ -24,7 +24,9 @@ public class Elevator : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other) {
         if (other.CompareTag("Player")) {
-            if (_elevatorCurrentPosition == ElevatorPosition.top) { MoveDown(); } else { MoveUp(); }
+            if (!_movingUp && !_movingdown) {
+                if (_elevatorCurrentPosition == ElevatorPosition.top) { MoveDown(); } else { MoveUp(); }
+            }
         }
     }
 
