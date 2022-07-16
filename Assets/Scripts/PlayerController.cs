@@ -50,6 +50,7 @@ public class PlayerController : MonoBehaviour {
 
     private void DeterminePlayerVelocity() {
         Vector3 moveDirection = _inputActions.Player.Movement.ReadValue<Vector2>();
+
         _isGrounded = _controller.isGrounded;
 
         if (_isGrounded) {
@@ -61,13 +62,14 @@ public class PlayerController : MonoBehaviour {
         } else if (_isWallJumping) { _playerVelocity.x = _wallCollisionNormal.x * 4; } //horizontal bounce when wall jumping
         
         if (_isGrounded && _playerVelocity.y < 0) { _playerVelocity.y = 0; } //_playerVelocity.y should never be < 0
-        
+
         if (_isWallJumping && !_canWallJump) { _playerVelocity.y = Mathf.Sqrt(_jumpHeight * -1.25f * _gravityValue); //wall jumping
         } else if (_startJump && _isGrounded) { _playerVelocity.y += Mathf.Sqrt(_jumpHeight * -3.0f * _gravityValue); //first jump
         } else if (_startJump && !_isGrounded && _currNumOfJumps < 2) { _playerVelocity.y += Mathf.Sqrt(_jumpHeight * -2.5f * _gravityValue); } //double jump
         
         if (_startJump) { _startJump = false; }
-        if (!_isGrounded && _wallCollisionNormal.y == -1f) { _playerVelocity.y = -1.5f; } //bounce off ceilings
+
+        if (!_isGrounded && _wallCollisionNormal.y == -1f) { _playerVelocity.y = -20f; } //bounce off ceilings
         if (!_isGrounded) { _playerVelocity.y += _gravityValue * Time.deltaTime; } //apply gravity
         if (!_movementDisabled) { MovePlayer(_playerVelocity); }
     }
