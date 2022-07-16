@@ -59,17 +59,16 @@ public class PlayerController : MonoBehaviour {
             _playerVelocity.x *= _playerSpeed;
             _canWallJump = false;
             _isWallJumping = false;
-        } else if (_isWallJumping) { _playerVelocity.x = _wallCollisionNormal.x * 4; }
-
-        if ((_isGrounded && _playerVelocity.y < 0) || _wallCollisionNormal.y == -1f) { _playerVelocity.y = 0; }
+        } else if (_isWallJumping) { _playerVelocity.x = _wallCollisionNormal.x * 4; } //horizontal bounce when wall jumping
         
+        if (_isGrounded && _playerVelocity.y < 0) { _playerVelocity.y = 0; } //_playerVelocity.y should never be < 0
         if (_isWallJumping && !_canWallJump) { _playerVelocity.y = Mathf.Sqrt(_jumpHeight * -1.25f * _gravityValue); //wall jumping
         } else if (_startJump && _isGrounded) { _playerVelocity.y += Mathf.Sqrt(_jumpHeight * -3.0f * _gravityValue); //first jump
         } else if (_startJump && !_isGrounded && _currNumOfJumps < 2) { _playerVelocity.y += Mathf.Sqrt(_jumpHeight * -2.5f * _gravityValue); } //double jump
         
         if (_startJump) { _startJump = false; }
-
-        _playerVelocity.y += _gravityValue * Time.deltaTime; //apply gravity
+        if (!_isGrounded && _wallCollisionNormal.y == -1f) { _playerVelocity.y = -1.5f; } //bounce off ceilings
+        if (!_isGrounded) { _playerVelocity.y += _gravityValue * Time.deltaTime; } //apply gravity
         if (!_movementDisabled) { MovePlayer(_playerVelocity); }
     }
     
@@ -87,13 +86,28 @@ public class PlayerController : MonoBehaviour {
     }
 
     private void OnControllerColliderHit(ControllerColliderHit hit) {
-        // Debug.DrawRay(hit.point, hit.normal, Color.blue);
-        // if (!_isGrounded) { Debug.Log("hit.normal = " + hit.normal); }
+        Rigidbody rigidBody = hit.collider.attachedRigidbody;
+        
+        if (!_isGrounded) { _wallCollisionNormal = hit.normal; }
         
         if (!_isGrounded && hit.transform.CompareTag("JumpableWall")) {
             _canWallJump = true;
-            _wallCollisionNormal = hit.normal;
             StartCoroutine(EndIsWallJumping());
+            return;
+        }
+
+        // if (rigidBody != null) { Debug.Log("rigidbody.velocity.y = " + rigidBody.velocity.y); }
+        // if (rigidBody != null && rigidBody.velocity.y != 0f) { rigidBody.velocity = Vector3.zero; return;}
+        
+        // Debug.Log("hit.transform.position.y =" + hit.transform.position.y);
+        // if (hit.transform.position.y < transform.position.y - 1.47f) { return;}
+        
+        if (hit.moveDirection.y < -0.3f) { return; }
+        
+        if (rigidBody != null && !rigidBody.isKinematic && hit.normal.y == 0f) {
+            Vector3 pushDirection = new Vector3(hit.moveDirection.x * (_playerVelocity.x / 2), 0, 0);
+            
+            rigidBody.velocity = pushDirection;
         }
     }
 
