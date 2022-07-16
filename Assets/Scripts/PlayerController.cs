@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
 using Debug = UnityEngine.Debug;
 
 public class PlayerController : MonoBehaviour {
@@ -66,6 +67,8 @@ public class PlayerController : MonoBehaviour {
         } else if (_startJump && _isGrounded) { _playerVelocity.y += Mathf.Sqrt(_jumpHeight * -3.0f * _gravityValue); //first jump
         } else if (_startJump && !_isGrounded && _currNumOfJumps < 2) { _playerVelocity.y += Mathf.Sqrt(_jumpHeight * -2.5f * _gravityValue); } //double jump
         
+        // if (!_startJump) { _playerVelocity.y = 0; } 
+        
         if (_startJump) { _startJump = false; }
         if (!_isGrounded && _wallCollisionNormal.y == -1f) { _playerVelocity.y = -1.5f; } //bounce off ceilings
         if (!_isGrounded) { _playerVelocity.y += _gravityValue * Time.deltaTime; } //apply gravity
@@ -102,7 +105,8 @@ public class PlayerController : MonoBehaviour {
         // Debug.Log("hit.transform.position.y =" + hit.transform.position.y);
         // if (hit.transform.position.y < transform.position.y - 1.47f) { return;}
         
-        if (hit.moveDirection.y < -0.3f) { return; }
+        // if (hit.moveDirection.y < -0.3f) { return; }
+        // if ((_controller.collisionFlags & CollisionFlags.Below) != 0) { return; }
         
         if (rigidBody != null && !rigidBody.isKinematic && hit.normal.y == 0f) {
             Vector3 pushDirection = new Vector3(hit.moveDirection.x * (_playerVelocity.x / 2), 0, 0);

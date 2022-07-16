@@ -150,9 +150,11 @@ MonoBehaviour:
   _playerVelocity: {x: 0, y: 0, z: 0}
   _isGrounded: 0
   _playerSpeed: 7
+  _jumpHeight: 3
   _startJump: 0
   _currNumOfJumps: 0
-  _jumpHeight: 3
+  _canWallJump: 0
+  _isWallJumping: 0
   _gravityValue: -100
   _movementDisabled: 0
 --- !u!114 &4492835528376960182
